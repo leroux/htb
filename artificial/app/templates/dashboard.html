@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Artificial</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+:root {
+    --primary-color: #6c7ae0;
+    --secondary-color: #3b3b58;
+    --light-bg: #ffffff;
+    --light-gray: #f0f0f5;
+    --gray: #d1d1d1;
+    --dark-gray: #333;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --hover-color: #5b6bc3;
+    --highlight-color: #ff5733;
+    --white: #ffffff;
+    --deep-blue: #2f3d68;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--light-bg);
+    color: var(--dark-gray);
+    line-height: 1.6;
+    font-size: 16px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+main {
+    padding: 40px;
+    background-color: var(--light-gray);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.dashboard-section {
+    max-width: 900px;
+    margin: 0 auto;
+    background: linear-gradient(145deg, var(--primary-color), #4a6d8a);
+    padding: 50px 35px;
+    border-radius: 25px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    animation: fadeIn 1s ease-out;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dashboard-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 60px rgba(0, 0, 0, 0.2);
+}
+
+.dashboard-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 150%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(-50%);
+    z-index: -1;
+    filter: blur(20px);
+}
+
+.dashboard-section h2 {
+    font-size: 2.5rem;
+    color: #fff;
+    margin-bottom: 25px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.dashboard-section p {
+    font-size: 1.1rem;
+    color: var(--light-bg);
+    margin-bottom: 35px;
+    font-weight: 400;
+    opacity: 0.85;
+}
+
+.file-input {
+    width: 100%;
+    padding: 14px 20px;
+    margin-bottom: 25px;
+    border: 2px solid var(--gray);
+    border-radius: 20px;
+    font-size: 1rem;
+    background-color: var(--light-bg);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    outline: none;
+    color: var(--dark-gray);
+}
+
+.file-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 12px rgba(108, 122, 224, 0.5);
+}
+
+.btn {
+    background-color: var(--secondary-color);
+    color: var(--white);
+    padding: 14px 30px;
+    font-size: 1.1rem;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn:hover {
+    background-color: var(--primary-color);
+    transform: translateY(-6px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.model-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 40px;
+}
+
+.model-list-item {
+    background-color: var(--white);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0 6px 18px var(--shadow-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.model-list-item:hover {
+    background-color: var(--light-gray);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.model-link {
+    margin-left: 15px;
+    color: var(--primary-color);
+    padding: 8px 15px;
+    font-size: 1rem;
+    border-radius: 30px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.model-link:hover {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+.version-warning {
+    color: var(--highlight-color);
+    font-weight: bold;
+    margin-top: 20px;
+    font-size: 1.1rem;
+    text-align: center;
+    background-color: rgba(255, 87, 51, 0.1);
+    padding: 12px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+.version-warning:hover {
+    background-color: rgba(255, 87, 51, 0.2);
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome, {{ username }}</h1>
+        <nav>
+            <ul>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="dashboard-section">
+            <h2>Your Models</h2>
+            <p style="color: black;">Upload, manage, and run your AI models here.</p>
+            
+            <!-- Warning message for TensorFlow version -->
+            <p class="version-warning">Please ensure these <a href="/static/requirements.txt">requirements</a> are installed when building your model, or use our <a href="/static/Dockerfile">Dockerfile</a> to build the needed environment with ease.  </p>
+
+            <!-- Upload form -->
+            <form id="upload-form" enctype="multipart/form-data" action="/upload_model" method="POST">
+                <input type="file" name="model_file" accept=".h5" class="file-input" required>
+                <button type="submit" class="btn" style="color: white;">Upload Model</button>
+            </form>
+
+            <!-- List models -->
+            <ul class="model-list">
+                {% for model in models %}
+                    <li class="model-list-item">
+                        {{ model.filename }}
+                        <a href="{{ url_for('run_model', model_id=model.id) }}" class="btn model-link" target="_blank" style="color: white;">View Predictions</a>
+                        <a href="{{ url_for('delete_model', model_id=model.id) }}" class="btn model-link" style="color: white;">Delete</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    </main>
+<br><br><br>
+    <footer class="footer">
+        <p>&copy; 2024 Artificial. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

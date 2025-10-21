@@ -1,0 +1,4 @@
+admin@artificial.htb:admin
+ADMIN:admin
+gael:mattp005numbertwo
+backrest_root:JDJhJDEwJGNWR0l5OVZNWFFkMGdNNWdpbkNtamVpMmtaUi9BQ01Na1Nzc3BiUnV0WVA1OEVCWnovMFFP

