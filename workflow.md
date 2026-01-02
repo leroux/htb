@@ -17,6 +17,10 @@ subdomain enum
 ---
 ffuf -w /usr/share/wordlists/seclists/Discovery/DNS/subdomains-top1million-110000.txt -u http://FUZZ.codeparttwo.htb
 
+if http site
+---
+run gobuster you dumb
+
 upgrade to better shell
 ---
 python3 -c 'import pty; pty.spawn("/bin/bash")'

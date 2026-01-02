@@ -1,0 +1,180 @@
+{
+  "target": "10.10.11.98",
+  "challenge": "monitorsfour",
+  "created": "2026-01-02T12:10:42.354140",
+  "last_updated": "2026-01-02T12:15:52.112477",
+  "nodes": [
+    {
+      "id": "host-001",
+      "type": "HOST",
+      "label": "10.10.11.98",
+      "properties": {
+        "result": "Enumeration complete"
+      },
+      "weight": {
+        "severity": 0.0,
+        "confidence": 5.0,
+        "centrality": 2,
+        "freshness": 8.0
+      },
+      "state": "investigated",
+      "discovered_at": "2026-01-02T12:10:42.354156",
+      "investigated": true
+    },
+    {
+      "id": "port-002",
+      "type": "PORT",
+      "label": "80/tcp",
+      "properties": {
+        "protocol": "tcp",
+        "service": "http"
+      },
+      "weight": {
+        "severity": 0.0,
+        "confidence": 5.0,
+        "centrality": 3,
+        "freshness": 10.0
+      },
+      "state": "discovered",
+      "discovered_at": "2026-01-02T12:15:52.112446",
+      "investigated": false
+    },
+    {
+      "id": "port-003",
+      "type": "PORT",
+      "label": "5985/tcp",
+      "properties": {
+        "protocol": "tcp",
+        "service": "wsman/winrm"
+      },
+      "weight": {
+        "severity": 0.0,
+        "confidence": 5.0,
+        "centrality": 1,
+        "freshness": 10.0
+      },
+      "state": "discovered",
+      "discovered_at": "2026-01-02T12:15:52.112457",
+      "investigated": false
+    },
+    {
+      "id": "service-004",
+      "type": "SERVICE",
+      "label": "nginx",
+      "properties": {
+        "product": "nginx",
+        "vhosts": [
+          "monitorsfour.htb",
+          "cacti.monitorsfour.htb"
+        ]
+      },
+      "weight": {
+        "severity": 0.0,
+        "confidence": 5.0,
+        "centrality": 1,
+        "freshness": 10.0
+      },
+      "state": "discovered",
+      "discovered_at": "2026-01-02T12:15:52.112464",
+      "investigated": false
+    },
+    {
+      "id": "service-005",
+      "type": "SERVICE",
+      "label": "Cacti 1.2.28",
+      "properties": {
+        "product": "Cacti",
+        "version": "1.2.28",
+        "url": "http://cacti.monitorsfour.htb/cacti/"
+      },
+      "weight": {
+        "severity": 8.0,
+        "confidence": 9.0,
+        "centrality": 1,
+        "freshness": 10.0
+      },
+      "state": "discovered",
+      "discovered_at": "2026-01-02T12:15:52.112469",
+      "investigated": false
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge-001",
+      "type": "LISTENS_ON",
+      "source": "host-001",
+      "target": "port-002",
+      "properties": {},
+      "weight": {
+        "probability": 1.0,
+        "effort": 1
+      }
+    },
+    {
+      "id": "edge-002",
+      "type": "LISTENS_ON",
+      "source": "host-001",
+      "target": "port-003",
+      "properties": {},
+      "weight": {
+        "probability": 1.0,
+        "effort": 1
+      }
+    },
+    {
+      "id": "edge-003",
+      "type": "RUNS_ON",
+      "source": "service-004",
+      "target": "port-002",
+      "properties": {},
+      "weight": {
+        "probability": 1.0,
+        "effort": 1
+      }
+    },
+    {
+      "id": "edge-004",
+      "type": "RUNS_ON",
+      "source": "service-005",
+      "target": "port-002",
+      "properties": {},
+      "weight": {
+        "probability": 1.0,
+        "effort": 1
+      }
+    }
+  ],
+  "paths": {
+    "attack_chains": []
+  },
+  "frontier": {
+    "unexplored": [
+      "port-002",
+      "port-003",
+      "service-004",
+      "service-005"
+    ],
+    "next_targets": [
+      {
+        "node_id": "service-005",
+        "priority_score": 7.1,
+        "reason": "Unexplored service, enumerate for vulns"
+      },
+      {
+        "node_id": "port-002",
+        "priority_score": 3.1,
+        "reason": "High priority target"
+      },
+      {
+        "node_id": "port-003",
+        "priority_score": 2.7,
+        "reason": "High priority target"
+      },
+      {
+        "node_id": "service-004",
+        "priority_score": 2.7,
+        "reason": "Unexplored service, enumerate for vulns"
+      }
+    ]
+  }
+}

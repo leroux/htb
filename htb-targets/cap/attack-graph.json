@@ -1,0 +1,359 @@
+{
+  "target": "10.10.10.245",
+  "challenge": "cap",
+  "created": "2026-01-02T11:52:51.347267",
+  "last_updated": "2026-01-02T12:01:59.098742",
+  "nodes": [
+    {
+      "id": "host-001",
+      "type": "HOST",
+      "label": "10.10.10.245",
+      "properties": {
+        "result": "Full compromise achieved"
+      },
+      "weight": {
+        "severity": 0.0,
+        "confidence": 5.0,
+        "centrality": 3,
+        "freshness": 8.0
+      },
+      "state": "exploited",
+      "discovered_at": "2026-01-02T11:52:51.347285",
+      "investigated": true
+    },
+    {
+      "id": "service-002",
+      "type": "SERVICE",
+      "label": "FTP:21 (vsftpd 3.0.3)",
+      "properties": {},
+      "weight": {
+        "severity": 0.0,
+        "confidence": 5.0,
+        "centrality": 1,
+        "freshness": 10.0
+      },
+      "state": "investigated",
+      "discovered_at": "2026-01-02T12:01:59.098666",
+      "investigated": false
+    },
+    {
+      "id": "service-003",
+      "type": "SERVICE",
+      "label": "SSH:22 (OpenSSH 8.2p1)",
+      "properties": {},
+      "weight": {
+        "severity": 0.0,
+        "confidence": 5.0,
+        "centrality": 1,
+        "freshness": 10.0
+      },
+      "state": "exploited",
+      "discovered_at": "2026-01-02T12:01:59.098670",
+      "investigated": false
+    },
+    {
+      "id": "service-004",
+      "type": "SERVICE",
+      "label": "HTTP:80 (Gunicorn)",
+      "properties": {},
+      "weight": {
+        "severity": 0.0,
+        "confidence": 5.0,
+        "centrality": 2,
+        "freshness": 10.0
+      },
+      "state": "exploited",
+      "discovered_at": "2026-01-02T12:01:59.098673",
+      "investigated": false
+    },
+    {
+      "id": "vuln-005",
+      "type": "VULN",
+      "label": "IDOR /data/{id}",
+      "properties": {
+        "severity": "high",
+        "cwe": "CWE-639"
+      },
+      "weight": {
+        "severity": 8.0,
+        "confidence": 10.0,
+        "centrality": 2,
+        "freshness": 10.0
+      },
+      "state": "exploited",
+      "discovered_at": "2026-01-02T12:01:59.098689",
+      "investigated": false
+    },
+    {
+      "id": "credential-006",
+      "type": "CREDENTIAL",
+      "label": "nathan:Buck3tH4TF0RM3!",
+      "properties": {
+        "source": "PCAP FTP capture"
+      },
+      "weight": {
+        "severity": 0.0,
+        "confidence": 5.0,
+        "centrality": 2,
+        "freshness": 10.0
+      },
+      "state": "exploited",
+      "discovered_at": "2026-01-02T12:01:59.098703",
+      "investigated": false
+    },
+    {
+      "id": "shell-007",
+      "type": "SHELL",
+      "label": "nathan@cap (user)",
+      "properties": {},
+      "weight": {
+        "severity": 0.0,
+        "confidence": 5.0,
+        "centrality": 3,
+        "freshness": 10.0
+      },
+      "state": "exploited",
+      "discovered_at": "2026-01-02T12:01:59.098708",
+      "investigated": false
+    },
+    {
+      "id": "vuln-008",
+      "type": "VULN",
+      "label": "Python3.8 cap_setuid",
+      "properties": {
+        "severity": "critical",
+        "path": "/usr/bin/python3.8"
+      },
+      "weight": {
+        "severity": 10.0,
+        "confidence": 10.0,
+        "centrality": 2,
+        "freshness": 10.0
+      },
+      "state": "exploited",
+      "discovered_at": "2026-01-02T12:01:59.098714",
+      "investigated": false
+    },
+    {
+      "id": "shell-009",
+      "type": "SHELL",
+      "label": "root@cap",
+      "properties": {},
+      "weight": {
+        "severity": 0.0,
+        "confidence": 5.0,
+        "centrality": 2,
+        "freshness": 10.0
+      },
+      "state": "exploited",
+      "discovered_at": "2026-01-02T12:01:59.098718",
+      "investigated": false
+    },
+    {
+      "id": "flag-010",
+      "type": "FLAG",
+      "label": "user.txt",
+      "properties": {
+        "value": "ea26f56d619fb3a2a0830a7117a1bdf4"
+      },
+      "weight": {
+        "severity": 0.0,
+        "confidence": 5.0,
+        "centrality": 1,
+        "freshness": 10.0
+      },
+      "state": "exploited",
+      "discovered_at": "2026-01-02T12:01:59.098731",
+      "investigated": false
+    },
+    {
+      "id": "flag-011",
+      "type": "FLAG",
+      "label": "root.txt",
+      "properties": {
+        "value": "a6c62fe1b3954ba6d4b4d84f85c4100e"
+      },
+      "weight": {
+        "severity": 0.0,
+        "confidence": 5.0,
+        "centrality": 1,
+        "freshness": 10.0
+      },
+      "state": "exploited",
+      "discovered_at": "2026-01-02T12:01:59.098733",
+      "investigated": false
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge-001",
+      "type": "LISTENS_ON",
+      "source": "host-001",
+      "target": "service-002",
+      "properties": {},
+      "weight": {
+        "probability": 1.0,
+        "effort": 1
+      }
+    },
+    {
+      "id": "edge-002",
+      "type": "LISTENS_ON",
+      "source": "host-001",
+      "target": "service-003",
+      "properties": {},
+      "weight": {
+        "probability": 1.0,
+        "effort": 1
+      }
+    },
+    {
+      "id": "edge-003",
+      "type": "LISTENS_ON",
+      "source": "host-001",
+      "target": "service-004",
+      "properties": {},
+      "weight": {
+        "probability": 1.0,
+        "effort": 1
+      }
+    },
+    {
+      "id": "edge-004",
+      "type": "VULNERABLE_TO",
+      "source": "service-004",
+      "target": "vuln-005",
+      "properties": {},
+      "weight": {
+        "probability": 1.0,
+        "effort": 1
+      }
+    },
+    {
+      "id": "edge-005",
+      "type": "YIELDS",
+      "source": "vuln-005",
+      "target": "credential-006",
+      "properties": {},
+      "weight": {
+        "probability": 1.0,
+        "effort": 1
+      }
+    },
+    {
+      "id": "edge-006",
+      "type": "AUTHENTICATES",
+      "source": "credential-006",
+      "target": "shell-007",
+      "properties": {},
+      "weight": {
+        "probability": 1.0,
+        "effort": 1
+      }
+    },
+    {
+      "id": "edge-007",
+      "type": "VULNERABLE_TO",
+      "source": "shell-007",
+      "target": "vuln-008",
+      "properties": {},
+      "weight": {
+        "probability": 1.0,
+        "effort": 1
+      }
+    },
+    {
+      "id": "edge-008",
+      "type": "YIELDS",
+      "source": "vuln-008",
+      "target": "shell-009",
+      "properties": {},
+      "weight": {
+        "probability": 1.0,
+        "effort": 1
+      }
+    },
+    {
+      "id": "edge-009",
+      "type": "HAS_FLAG",
+      "source": "shell-007",
+      "target": "flag-010",
+      "properties": {},
+      "weight": {
+        "probability": 1.0,
+        "effort": 1
+      }
+    },
+    {
+      "id": "edge-010",
+      "type": "HAS_FLAG",
+      "source": "shell-009",
+      "target": "flag-011",
+      "properties": {},
+      "weight": {
+        "probability": 1.0,
+        "effort": 1
+      }
+    }
+  ],
+  "paths": {
+    "attack_chains": [
+      {
+        "id": "chain-001",
+        "name": "Full Compromise",
+        "nodes": [
+          "service-004",
+          "vuln-005",
+          "credential-006",
+          "shell-007",
+          "vuln-008",
+          "shell-009"
+        ],
+        "status": "completed",
+        "total_effort": 3,
+        "timestamp": "2026-01-02T12:01:59.098741"
+      }
+    ]
+  },
+  "frontier": {
+    "unexplored": [
+      "service-002",
+      "service-003",
+      "service-004",
+      "vuln-005",
+      "credential-006",
+      "shell-007",
+      "vuln-008",
+      "shell-009",
+      "flag-010",
+      "flag-011"
+    ],
+    "next_targets": [
+      {
+        "node_id": "vuln-008",
+        "priority_score": 8.4,
+        "reason": "High priority target"
+      },
+      {
+        "node_id": "vuln-005",
+        "priority_score": 7.6,
+        "reason": "High priority target"
+      },
+      {
+        "node_id": "shell-007",
+        "priority_score": 3.1,
+        "reason": "Fresh shell, check for privesc"
+      },
+      {
+        "node_id": "service-004",
+        "priority_score": 2.9,
+        "reason": "High priority target"
+      },
+      {
+        "node_id": "credential-006",
+        "priority_score": 2.9,
+        "reason": "High priority target"
+      }
+    ]
+  }
+}

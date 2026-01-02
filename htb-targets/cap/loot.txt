@@ -1,0 +1,18 @@
+# Cap (10.10.10.245) - Loot
+
+## Credentials
+nathan:Buck3tH4TF0RM3!
+
+## Flags
+user.txt: ea26f56d619fb3a2a0830a7117a1bdf4
+root.txt: a6c62fe1b3954ba6d4b4d84f85c4100e
+
+## Attack Vector
+1. IDOR at /data/0 -> download PCAP
+2. FTP creds in PCAP -> SSH as nathan
+3. Python3.8 cap_setuid -> root
+
+## Key Files
+- /home/nathan/user.txt
+- /root/root.txt
+- /usr/bin/python3.8 (cap_setuid)

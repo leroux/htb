@@ -1,0 +1,14 @@
+# Nmap 7.95 scan initiated Fri Jan  2 12:11:21 2026 as: /usr/lib/nmap/nmap --privileged -sC -sV -T4 -oN htb-targets/monitorsfour/nmap-initial.txt 10.10.11.98
+Nmap scan report for 10.10.11.98
+Host is up (0.10s latency).
+Not shown: 998 filtered tcp ports (no-response)
+PORT     STATE SERVICE VERSION
+80/tcp   open  http    nginx
+|_http-title: Did not follow redirect to http://monitorsfour.htb/
+5985/tcp open  http    Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
+|_http-title: Not Found
+|_http-server-header: Microsoft-HTTPAPI/2.0
+Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Fri Jan  2 12:11:45 2026 -- 1 IP address (1 host up) scanned in 23.65 seconds
